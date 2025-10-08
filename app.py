@@ -43,3 +43,48 @@ with tab1:
 
     st.write('Clean Dataset Preview: ')
     st.dataframe(df_clean.head())
+
+with tab2:
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sentiments = df_clean.groupby('Sentiment').size()
+    sentiments.plot(kind='bar', ax=ax, color='maroon', edgecolor='black', linewidth=2)
+    ax.set_title('Sentiment Distribution')
+    ax.set_ylabel('Count')
+    ax.set_xlabel('Sentiment')
+    st.pyplot(fig)
+    st.write('News Sentiment')
+    st.write('This chart shows how news articles are spread across positive, neutral, '
+             'and negative sentiment categories.')
+   
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    df_clean['Trading_Volume'].plot(kind='hist', bins=10, ax=ax, color='yellow', edgecolor='black', linewidth=2)
+    ax.set_title('Trading Volume Distribution')
+    ax.set_ylabel('Count')
+    ax.set_xlabel('Trading Volume')
+    st.pyplot(fig)
+    st.write('Trading Volume')
+    st.write('The histogram illustrates how often different trading volume ranges occur,' 
+             'highlighting common trading activity levels.')
+    
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    df_clean['Index_Change_Percent'].plot(kind='hist', bins=10, ax=ax, color='cyan', edgecolor='black', linewidth=2)
+    ax.set_title('Index Change % Distribution')
+    ax.set_ylabel('Count')
+    ax.set_xlabel('Index Change Percent')
+    st.pyplot(fig)
+    st.write('Index Change Percent')
+    st.write('This histogram displays how frequently different percentage changes in the index occur, '
+             'showing the spread of market movements.')
+
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    impact_level = df_clean.groupby('Impact_Level').size()
+    impact_level.plot(kind='bar', ax=ax, color='orange', edgecolor='black', linewidth=2)
+    ax.set_title('Impact Level Distribution')
+    ax.set_ylabel('Count')
+    ax.set_xlabel('Impact Level')
+    st.pyplot(fig)                    
+    st.write('Impact Level')
+    st.write('The chart shows the frequency of events categorized by their market impact: low, medium, or high.')
