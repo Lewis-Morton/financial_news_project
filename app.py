@@ -51,6 +51,7 @@ with tab2:
     ax.set_title('Sentiment Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Sentiment')
+    ax.grid(True, axis='y')
     st.pyplot(fig)
     st.write('News Sentiment')
     st.write('This chart shows how news articles are spread across positive, neutral, '
@@ -62,6 +63,7 @@ with tab2:
     ax.set_title('Trading Volume Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Trading Volume')
+    ax.grid(True, axis='y')
     st.pyplot(fig)
     st.write('Trading Volume')
     st.write('The histogram illustrates how often different trading volume ranges occur,' 
@@ -73,6 +75,7 @@ with tab2:
     ax.set_title('Index Change % Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Index Change Percent')
+    ax.grid(True, axis='y')
     st.pyplot(fig)
     st.write('Index Change Percent')
     st.write('This histogram displays how frequently different percentage changes in the index occur, '
@@ -85,6 +88,7 @@ with tab2:
     ax.set_title('Impact Level Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Impact Level')
+    ax.grid(True, axis='y')
     st.pyplot(fig)                    
     st.write('Impact Level')
     st.write('The chart shows the frequency of events categorized by their market impact: low, medium, or high.')
