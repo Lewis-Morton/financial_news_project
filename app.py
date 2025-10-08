@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 df = pd.read_csv(r'data\financial_news_events.csv')
+df_clean = pd.read_csv(r'data\financial_news_events_clean.csv')
 
 st.title('Financial News Dashboard', width='stretch')
 st.divider()
@@ -24,3 +25,21 @@ with tab1:
     col2.metric('Average Index Change Percent:', '-0.03')
     col3.metric('Most Common Sentiment: ', 'Negative')
     col4.metric('Most impacted Sector: ', 'Agriculture')
+
+    st.write('Original Dataset Shape: ', df.shape)
+
+    st.write('Missing Values Before Data cleaning:')
+    missing_per_column = df.isna().sum().reset_index()
+    missing_per_column.columns = ['Column', 'Missing Values']
+    st.dataframe(missing_per_column)
+
+    st.write('Rows missing Headline or Index_Change_Percent were removed. Missing sentiment scores were filled using sentiment'
+            'analysis on the headlines, and missing URL values were replaced with \'missing url data\'.')
+    
+    st.write('Final Dataset Shape: ', df_clean.shape)
+    
+    st.write('Summary Statistics Post Data Cleaning: \n')
+    st.write(df_clean.describe())
+
+    st.write('Clean Dataset Preview: ')
+    st.dataframe(df_clean.head())
