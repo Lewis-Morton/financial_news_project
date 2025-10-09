@@ -51,7 +51,7 @@ with tab2:
     sentiments.plot(kind='bar', ax=ax, color='maroon', edgecolor='black', linewidth=2)
     ax.set_title('Sentiment Distribution')
     ax.set_ylabel('Count')
-    ax.set_xlabel('Sentiment')
+    ax.set_xlabel('News Sentiment')
     ax.grid(True, axis='y')
     st.pyplot(fig)
     st.write('News Sentiment')
@@ -125,10 +125,62 @@ with tab3:
     plt.xticks(rotation=90)
     st.pyplot(fig)
 
+import seaborn as sns
+
 with tab4:
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.boxplot(x='Impact_Level', y='Index_Change_Percent', data=df_clean, ax=ax, color='maroon', linewidth=2)
+    ax.set_title('Index Change Percent by Impact Level')
+    ax.set_ylabel('Index Change Percent')
+    ax.set_xlabel('Impact Level')
+    ax.grid(True, axis='y')
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.boxplot(x='Sentiment', y='Index_Change_Percent', data=df_clean, ax=ax, color='yellow', linewidth=2)
+    ax.set_title('Index Change Percent by Sentiment')
+    ax.set_ylabel('Index Change Percent')
+    ax.set_xlabel('Sentiment')
+    ax.grid(True, axis='y')
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.boxplot(x='Sector', y='Index_Change_Percent', data=df_clean, ax=ax, color='pink', linewidth=2)
+    ax.set_title('Index Change Percent by Sector')
+    ax.set_ylabel('Index Change Percent')
+    ax.set_xlabel('Sector')
+    ax.grid(True, axis='y')
+    plt.xticks(rotation=90)
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.boxplot(x='Impact_Level', y='Trading_Volume', data=df_clean, ax=ax, color='purple', linewidth=2)
+    ax.set_title('Trading Volume by Impact Level')
+    ax.set_ylabel('Trading Volume')
+    ax.set_xlabel('Impact Level')
+    ax.grid(True, axis='y')
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.boxplot(x='Sentiment', y='Trading_Volume', data=df_clean, ax=ax, color='orange', linewidth=2)
+    ax.set_title('Trading Volume by Sentiment')
+    ax.set_ylabel('trading Volume')
+    ax.set_xlabel('Sentiment')
+    ax.grid(True, axis='y')
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.boxplot(x='Sector', y='Trading_Volume', data=df_clean, ax=ax, color='brown', linewidth=2)
+    ax.set_title('Trading Volume by Sector')
+    ax.set_ylabel('Trading Volume')
+    ax.set_xlabel('Sector')
+    ax.grid(True, axis='y')
+    plt.xticks(rotation=90)
+    st.pyplot(fig)
 
 
-    import seaborn as sns
+
+
 
 with tab5:
     fig, ax = plt.subplots(figsize=(10,6))
