@@ -4,6 +4,7 @@ import streamlit as st
 
 df = pd.read_csv(r'data\financial_news_events.csv')
 df_clean = pd.read_csv(r'data\financial_news_events_clean.csv')
+heatmap_df = pd.read_csv(r'data\financial_news_events_heatmap_df.csv')
 
 st.title('Financial News Dashboard', width='stretch')
 st.divider()
@@ -92,3 +93,45 @@ with tab2:
     st.pyplot(fig)                    
     st.write('Impact Level')
     st.write('The chart shows the frequency of events categorized by their market impact: low, medium, or high.')
+
+with tab3:
+    fig, ax = plt.subplots(figsize=(12,6))
+    sector = df_clean.groupby('Sector').size()
+    sector.plot(kind='bar', ax=ax, color='salmon', edgecolor='black', linewidth=2)
+    ax.set_title('Count of Sectors Affected bby News Events')
+    ax.set_ylabel('Count')
+    ax.set_xlabel('Sectors')
+    ax.grid(True, axis='y')
+    plt.xticks(rotation=90)
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    source = df['Source'].value_counts().head(10)
+    source.plot(kind='bar', ax=ax, color='grey', edgecolor='black', linewidth=2)
+    ax.set_title('Count of top 10 News Sources')
+    ax.set_ylabel('Count')
+    ax.set_xlabel('News Sources')
+    ax.grid(True, axis='y')
+    plt.xticks(rotation=90)
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    market_event = df['Market_Event'].value_counts().head(10)
+    market_event.plot(kind='bar', ax=ax, color='green', edgecolor='black', linewidth=2)
+    ax.set_title('Count of top 10 Event Types')
+    ax.set_ylabel('Count')
+    ax.set_xlabel('Market Event')
+    ax.grid(True, axis='y')
+    plt.xticks(rotation=90)
+    st.pyplot(fig)
+
+with tab4:
+
+
+    import seaborn as sns
+
+with tab5:
+    fig, ax = plt.subplots(figsize=(10,6))
+    sns.heatmap(heatmap_df.corr(), annot=True, cmap="coolwarm", center=0)
+    ax.set_title("Correlation Heatmap of Key Financial Features")
+    st.pyplot(fig)
