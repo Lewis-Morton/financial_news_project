@@ -18,7 +18,7 @@ with st.expander('See more details'):
 
 st.sidebar.header('Sidebar Controls')
 
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Overview', 'Distrubutions', 'Categorical Analysis', 'Market Movement analysis', 'Correlations', 'Predictive Modelling'])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Overview', 'Distrubutions', 'Categorical Analysis', 'Market Movement analysis', 'Correlations', 'Headline Text Analysis','Predictive Modelling'])
 
 with tab1:
     col1, col2, col3, col4 = st.columns(4)
@@ -177,9 +177,6 @@ with tab4:
     ax.grid(True, axis='y')
     plt.xticks(rotation=90)
     st.pyplot(fig)
-
-
-
 
 
 with tab5:
