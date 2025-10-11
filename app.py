@@ -5,6 +5,10 @@ import streamlit as st
 df = pd.read_csv(r'data\financial_news_events.csv')
 df_clean = pd.read_csv(r'data\financial_news_events_clean.csv')
 heatmap_df = pd.read_csv(r'data\financial_news_events_heatmap_df.csv')
+clean_words = pd.read_csv(r'data\clean_words.csv')['Word'].tolist()
+word_series = pd.Series(clean_words)
+
+st.set_page_config(layout='wide', initial_sidebar_state='collapsed')
 
 st.title('Financial News Dashboard', width='stretch')
 st.divider()
@@ -18,7 +22,7 @@ with st.expander('See more details'):
 
 st.sidebar.header('Sidebar Controls')
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Overview', 'Distrubutions', 'Categorical Analysis', 'Market Movement analysis', 'Correlations', 'Headline Text Analysis','Predictive Modelling'])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Overview', 'Distrubutions', 'Categorical Analysis', 'Market Movement analysis', 'Correlations', 'Headline Text Analysis', 'Predictive Modelling'])
 
 with tab1:
     col1, col2, col3, col4 = st.columns(4)
@@ -178,9 +182,51 @@ with tab4:
     plt.xticks(rotation=90)
     st.pyplot(fig)
 
-
 with tab5:
     fig, ax = plt.subplots(figsize=(10,6))
     sns.heatmap(heatmap_df.corr(), annot=True, cmap="coolwarm", center=0)
     ax.set_title("Correlation Heatmap of Key Financial Features")
     st.pyplot(fig)
+
+
+
+with tab6:
+    try:
+        from nltk import bigrams, trigrams, FreqDist
+    
+        fig, ax = plt.subplots(figsize=(12,6))
+        most_common_words = word_series.value_counts().head(20)
+        most_common_words.plot(kind='bar', ax=ax, color='cyan', edgecolor='black', linewidth=2)
+        ax.set_title('Top 20 Most Common Headline Words')
+        ax.set_ylabel('Count')
+        ax.set_xlabel('Words')
+        ax.grid(True, axis='y')
+        plt.xticks(rotation=90)
+        st.pyplot(fig)
+
+        bigrams_list = list(bigrams(clean_words))
+        trigrams_list = list(trigrams(clean_words))
+
+        fdist_bigrams = FreqDist(bigrams_list)
+        fdist_trigrams = FreqDist(trigrams_list)
+
+        top10_bigrams = fdist_bigrams.most_common(10)
+        top10_trigrams = fdist_trigrams.most_common(10)
+
+        df_bigrams = pd.DataFrame(top10_bigrams, columns=['Bigram', 'Count'])
+        df_trigrams = pd.DataFrame(top10_trigrams, columns=['Trigram', 'Count'])
+
+        df_bigrams['Bigram'] = [' '.join(x) for x in df_bigrams['Bigram']]
+        df_trigrams['Trigram'] = [' '.join(x) for x in df_trigrams['Trigram']]
+
+        st.subheader('Top 10 Bigrams')
+        st.dataframe(df_bigrams)
+
+        st.subheader('Top 10 Trigrams')
+        st.dataframe(df_trigrams)
+    except Exception as e:
+        st.error(f'Error in Tab 6: {e}')
+
+with tab7:
+    st.write('This is Tab 7')
+
