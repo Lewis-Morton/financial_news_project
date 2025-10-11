@@ -50,10 +50,12 @@ with tab1:
     st.write('Clean Dataset Preview: ')
     st.dataframe(df_clean.head())
 
+import seaborn as sns
+
 with tab2:
-    fig, ax = plt.subplots(figsize=(12, 6))
-    sentiments = df_clean.groupby('Sentiment').size()
-    sentiments.plot(kind='bar', ax=ax, color='maroon', edgecolor='black', linewidth=2)
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.countplot(x='Sentiment', data=df_clean, palette='Set2', edgecolor='black', linewidth=2, ax=ax)
     ax.set_title('Sentiment Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('News Sentiment')
@@ -65,7 +67,7 @@ with tab2:
    
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    df_clean['Trading_Volume'].plot(kind='hist', bins=10, ax=ax, color='yellow', edgecolor='black', linewidth=2)
+    df_clean['Trading_Volume'].plot(kind='hist', bins=10, ax=ax, color='grey', edgecolor='black', linewidth=2)
     ax.set_title('Trading Volume Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Trading Volume')
@@ -73,11 +75,11 @@ with tab2:
     st.pyplot(fig)
     st.write('Trading Volume')
     st.write('The histogram illustrates how often different trading volume ranges occur,' 
-             'highlighting common trading activity levels.')
-    
+             ' highlighting common trading activity levels.')
+
 
     fig, ax = plt.subplots(figsize=(12,6))
-    df_clean['Index_Change_Percent'].plot(kind='hist', bins=10, ax=ax, color='cyan', edgecolor='black', linewidth=2)
+    df_clean['Index_Change_Percent'].plot(kind='hist', bins=10, ax=ax, color='grey', edgecolor='black', linewidth=2)
     ax.set_title('Index Change % Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Index Change Percent')
@@ -89,8 +91,7 @@ with tab2:
 
 
     fig, ax = plt.subplots(figsize=(12,6))
-    impact_level = df_clean.groupby('Impact_Level').size()
-    impact_level.plot(kind='bar', ax=ax, color='orange', edgecolor='black', linewidth=2)
+    sns.countplot(x='Impact_Level', data=df_clean, palette='Set3', edgecolor='black', linewidth=2, ax=ax)
     ax.set_title('Impact Level Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Impact Level')
@@ -100,9 +101,9 @@ with tab2:
     st.write('The chart shows the frequency of events categorized by their market impact: low, medium, or high.')
 
 with tab3:
+
     fig, ax = plt.subplots(figsize=(12,6))
-    sector = df_clean.groupby('Sector').size()
-    sector.plot(kind='bar', ax=ax, color='salmon', edgecolor='black', linewidth=2)
+    sns.countplot(x='Sector', data=df_clean, palette='Set2', edgecolor='black', linewidth=2, ax=ax)
     ax.set_title('Count of Sectors Affected bby News Events')
     ax.set_ylabel('Count')
     ax.set_xlabel('Sectors')
@@ -110,9 +111,9 @@ with tab3:
     plt.xticks(rotation=90)
     st.pyplot(fig)
 
+    top_10_sources = df['Source'].value_counts().head(10).index
     fig, ax = plt.subplots(figsize=(12,6))
-    source = df['Source'].value_counts().head(10)
-    source.plot(kind='bar', ax=ax, color='grey', edgecolor='black', linewidth=2)
+    sns.countplot(x='Source', data=df_clean, palette='Set3', order=top_10_sources, edgecolor='black', linewidth=2, ax=ax)
     ax.set_title('Count of top 10 News Sources')
     ax.set_ylabel('Count')
     ax.set_xlabel('News Sources')
@@ -120,9 +121,8 @@ with tab3:
     plt.xticks(rotation=90)
     st.pyplot(fig)
 
-    fig, ax = plt.subplots(figsize=(12,6))
-    market_event = df['Market_Event'].value_counts().head(10)
-    market_event.plot(kind='bar', ax=ax, color='green', edgecolor='black', linewidth=2)
+    top_10_market_events = df['Market_Event'].value_counts().head(10).index
+    sns.countplot(x='Market_Event', data=df_clean, palette='pastel', edgecolor='black', linewidth=2, ax=ax)
     ax.set_title('Count of top 10 Event Types')
     ax.set_ylabel('Count')
     ax.set_xlabel('Market Event')
@@ -134,7 +134,7 @@ import seaborn as sns
 
 with tab4:
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Impact_Level', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set1', linewidth=2)
+    sns.boxplot(x='Impact_Level', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set2', linewidth=2)
     ax.set_title('Index Change Percent by Impact Level')
     ax.set_ylabel('Index Change Percent')
     ax.set_xlabel('Impact Level')
@@ -142,7 +142,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sentiment', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set2', linewidth=2)
+    sns.boxplot(x='Sentiment', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set3', linewidth=2)
     ax.set_title('Index Change Percent by Sentiment')
     ax.set_ylabel('Index Change Percent')
     ax.set_xlabel('Sentiment')
@@ -150,7 +150,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sector', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set3', linewidth=2)
+    sns.boxplot(x='Sector', y='Index_Change_Percent', data=df_clean, ax=ax, palette='pastel', linewidth=2)
     ax.set_title('Index Change Percent by Sector')
     ax.set_ylabel('Index Change Percent')
     ax.set_xlabel('Sector')
@@ -159,7 +159,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Impact_Level', y='Trading_Volume', data=df_clean, ax=ax, palette='Set1', linewidth=2)
+    sns.boxplot(x='Impact_Level', y='Trading_Volume', data=df_clean, ax=ax, palette='Set2', linewidth=2)
     ax.set_title('Trading Volume by Impact Level')
     ax.set_ylabel('Trading Volume')
     ax.set_xlabel('Impact Level')
@@ -167,7 +167,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sentiment', y='Trading_Volume', data=df_clean, ax=ax, palette='Set2', linewidth=2)
+    sns.boxplot(x='Sentiment', y='Trading_Volume', data=df_clean, ax=ax, palette='Set3', linewidth=2)
     ax.set_title('Trading Volume by Sentiment')
     ax.set_ylabel('trading Volume')
     ax.set_xlabel('Sentiment')
@@ -175,7 +175,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sector', y='Trading_Volume', data=df_clean, ax=ax, palette='Set3', linewidth=2)
+    sns.boxplot(x='Sector', y='Trading_Volume', data=df_clean, ax=ax, palette='pastel', linewidth=2)
     ax.set_title('Trading Volume by Sector')
     ax.set_ylabel('Trading Volume')
     ax.set_xlabel('Sector')
@@ -192,10 +192,11 @@ with tab5:
 with tab6:
     try:
         from nltk import bigrams, trigrams, FreqDist
-    
+
+        most_common_words = word_series.value_counts().head(20).reset_index()
+        most_common_words.columns = ['Word', 'Count']
         fig, ax = plt.subplots(figsize=(12,6))
-        most_common_words = word_series.value_counts().head(20)
-        most_common_words.plot(kind='bar', ax=ax, color='cyan', edgecolor='black', linewidth=2)
+        sns.barplot(data=most_common_words.head(20), x='Word', y='Count', palette='Set2', edgecolor='black', linewidth=2, ax=ax)
         ax.set_title('Top 20 Most Common Headline Words')
         ax.set_ylabel('Count')
         ax.set_xlabel('Words')
@@ -218,11 +219,29 @@ with tab6:
         df_bigrams['Bigram'] = [' '.join(x) for x in df_bigrams['Bigram']]
         df_trigrams['Trigram'] = [' '.join(x) for x in df_trigrams['Trigram']]
 
-        st.subheader('Top 10 Bigrams')
-        st.dataframe(df_bigrams)
+        fig, ax = plt.subplots(figsize=(12,6))
+        sns.barplot(data=df_bigrams.head(10), x='Bigram', y='Count', palette='Set2', edgecolor='black', linewidth=2, ax=ax)
+        ax.set_title('Top 10 Most Common Bigrams')
+        ax.set_ylabel('Count')
+        ax.set_xlabel('Bigrams')
+        ax.grid(True, axis='y')
+        plt.xticks(rotation=90)
+        st.pyplot(fig)
 
-        st.subheader('Top 10 Trigrams')
-        st.dataframe(df_trigrams)
+        fig, ax = plt.subplots(figsize=(12,6))
+        sns.barplot(data=df_trigrams.head(10), x='Trigram', y='Count', palette='Set3', edgecolor='black', linewidth=2, ax=ax)
+        ax.set_title('Top 10 Most Common Trigrams')
+        ax.set_ylabel('Count')
+        ax.set_xlabel('Trigrams')
+        ax.grid(True, axis='y')
+        plt.xticks(rotation=90)
+        st.pyplot(fig)
+
+        #st.subheader('Top 10 Bigrams')
+        #st.dataframe(df_bigrams)
+
+        #st.subheader('Top 10 Trigrams')
+        #st.dataframe(df_trigrams)
     except Exception as e:
         st.error(f'Error in Tab 6: {e}')
 
@@ -272,9 +291,9 @@ with tab7:
 
     y_test_predict = dtree.predict(x_test)
 
-    st.write('Confusion matrix tree: \n', confusion_matrix(y_test, y_test_predict), '\n')
+    #st.write('Confusion matrix tree: \n', confusion_matrix(y_test, y_test_predict), '\n')
     st.write('Accuracy: ', accuracy_score(y_test ,y_test_predict), '\n')
-    st.write(metrics.classification_report(y_test, y_test_predict),'\n')
+    #st.write(metrics.classification_report(y_test, y_test_predict),'\n')
 
     # Feature importance chart
     importance_df = pd.DataFrame({
@@ -282,13 +301,14 @@ with tab7:
         "Importance": dtree.feature_importances_
     }).sort_values("Importance", ascending=False)
 
-    fig, ax = plt.subplots(figsize=(10, 6))
-    importance_df.head(10).plot(kind="bar", x="Feature", y="Importance", ax=ax, legend=False, color='skyblue', edgecolor='black')
+    fig, ax = plt.subplots(figsize=(12,6))
+    sns.barplot(data=importance_df.head(10), x='Feature', y='Importance', palette='Blues_r', edgecolor='black', linewidth=2, ax=ax)
     ax.set_title("Top 10 Feature Importances")
     ax.set_ylabel("Importance")
     ax.set_xlabel("Feature")
     plt.xticks(rotation=90, ha='right')
     st.pyplot(fig)
+
 
 
     st.write('  Introduction to Decison Tree')
