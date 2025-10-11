@@ -7,8 +7,9 @@ df_clean = pd.read_csv(r'data\financial_news_events_clean.csv')
 heatmap_df = pd.read_csv(r'data\financial_news_events_heatmap_df.csv')
 clean_words = pd.read_csv(r'data\clean_words.csv')['Word'].tolist()
 word_series = pd.Series(clean_words)
+df_one_hot_encoded = pd.read_csv(r'data\df_one_hot_encoded.csv')
 
-st.set_page_config(layout='wide', initial_sidebar_state='collapsed')
+st.set_page_config(layout='wide')
 
 st.title('Financial News Dashboard', width='stretch')
 st.divider()
@@ -22,7 +23,7 @@ with st.expander('See more details'):
 
 st.sidebar.header('Sidebar Controls')
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Overview', 'Distrubutions', 'Categorical Analysis', 'Market Movement analysis', 'Correlations', 'Headline Text Analysis', 'Predictive Modelling'])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Overview', 'Distributions', 'Categorical Analysis', 'Market Movement analysis', 'Correlations', 'Headline Text Analysis', 'Predictive Modelling'])
 
 with tab1:
     col1, col2, col3, col4 = st.columns(4)
@@ -133,7 +134,7 @@ import seaborn as sns
 
 with tab4:
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Impact_Level', y='Index_Change_Percent', data=df_clean, ax=ax, color='maroon', linewidth=2)
+    sns.boxplot(x='Impact_Level', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set1', linewidth=2)
     ax.set_title('Index Change Percent by Impact Level')
     ax.set_ylabel('Index Change Percent')
     ax.set_xlabel('Impact Level')
@@ -141,7 +142,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sentiment', y='Index_Change_Percent', data=df_clean, ax=ax, color='yellow', linewidth=2)
+    sns.boxplot(x='Sentiment', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set2', linewidth=2)
     ax.set_title('Index Change Percent by Sentiment')
     ax.set_ylabel('Index Change Percent')
     ax.set_xlabel('Sentiment')
@@ -149,7 +150,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sector', y='Index_Change_Percent', data=df_clean, ax=ax, color='pink', linewidth=2)
+    sns.boxplot(x='Sector', y='Index_Change_Percent', data=df_clean, ax=ax, palette='Set3', linewidth=2)
     ax.set_title('Index Change Percent by Sector')
     ax.set_ylabel('Index Change Percent')
     ax.set_xlabel('Sector')
@@ -158,7 +159,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Impact_Level', y='Trading_Volume', data=df_clean, ax=ax, color='purple', linewidth=2)
+    sns.boxplot(x='Impact_Level', y='Trading_Volume', data=df_clean, ax=ax, palette='Set1', linewidth=2)
     ax.set_title('Trading Volume by Impact Level')
     ax.set_ylabel('Trading Volume')
     ax.set_xlabel('Impact Level')
@@ -166,7 +167,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sentiment', y='Trading_Volume', data=df_clean, ax=ax, color='orange', linewidth=2)
+    sns.boxplot(x='Sentiment', y='Trading_Volume', data=df_clean, ax=ax, palette='Set2', linewidth=2)
     ax.set_title('Trading Volume by Sentiment')
     ax.set_ylabel('trading Volume')
     ax.set_xlabel('Sentiment')
@@ -174,7 +175,7 @@ with tab4:
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12,6))
-    sns.boxplot(x='Sector', y='Trading_Volume', data=df_clean, ax=ax, color='brown', linewidth=2)
+    sns.boxplot(x='Sector', y='Trading_Volume', data=df_clean, ax=ax, palette='Set3', linewidth=2)
     ax.set_title('Trading Volume by Sector')
     ax.set_ylabel('Trading Volume')
     ax.set_xlabel('Sector')
@@ -184,11 +185,9 @@ with tab4:
 
 with tab5:
     fig, ax = plt.subplots(figsize=(10,6))
-    sns.heatmap(heatmap_df.corr(), annot=True, cmap="coolwarm", center=0)
+    sns.heatmap(heatmap_df.corr(), annot=True, cmap='RdBu_r', center=0)
     ax.set_title("Correlation Heatmap of Key Financial Features")
     st.pyplot(fig)
-
-
 
 with tab6:
     try:
@@ -227,6 +226,89 @@ with tab6:
     except Exception as e:
         st.error(f'Error in Tab 6: {e}')
 
+import sklearn
+from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn.metrics import confusion_matrix, accuracy_score
+
 with tab7:
-    st.write('This is Tab 7')
+    #Define classification model features and target
+    features = ['Index_Change_Percent', 'Trading_Volume', 'Sentiment_Numeric', 
+            'Sector_Aerospace & Defense', 'Sector_Agriculture', 'Sector_Automotive', 
+            'Sector_Construction', 'Sector_Consumer Goods', 'Sector_Energy', 
+            'Sector_Finance', 'Sector_Healthcare', 'Sector_Industrials', 
+            'Sector_Materials', 'Sector_Media & Entertainment', 
+            'Sector_Pharmaceuticals', 'Sector_Real Estate', 'Sector_Retail', 
+            'Sector_Technology', 'Sector_Telecommunications', 'Sector_Transportation', 
+            'Sector_Utilities', 'Market_Event_Bond Market Fluctuation', 
+            'Market_Event_Central Bank Meeting', 'Market_Event_Commodity Price Shock', 
+            'Market_Event_Consumer Confidence Report', 
+            'Market_Event_Corporate Earnings Report', 'Market_Event_Cryptocurrency Regulation', 
+            'Market_Event_Currency Devaluation', 'Market_Event_Economic Data Release', 
+            'Market_Event_Geopolitical Event', 'Market_Event_Government Policy Announcement', 
+            'Market_Event_IPO Launch', 'Market_Event_Inflation Data Release', 
+            'Market_Event_Interest Rate Change', 'Market_Event_Major Merger/Acquisition', 
+            'Market_Event_Market Rally', 'Market_Event_Regulatory Changes', 
+            'Market_Event_Stock Market Crash', 'Market_Event_Supply Chain Disruption', 
+            'Market_Event_Trade Tariffs Announcement', 
+            'Market_Event_Unemployment Rate Announcement']
+    x = df_one_hot_encoded[features]
+    y = df_one_hot_encoded.Impact_Level_Numeric
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+
+    dtree = DecisionTreeClassifier(max_depth=4)
+    dtree = dtree.fit(x_train, y_train)
+    fig, ax = plt.subplots(figsize=(30,25))
+    class_mapping = {0: "Low", 1: 'Medium', 2: 'High'}
+    class_labels = [class_mapping[c] for c in dtree.classes_]
+    tree.plot_tree(dtree, feature_names=features, class_names=class_labels, filled=True, fontsize=15, rounded=True)
+    #plt.show()
+    st.pyplot(fig)
+    print('Decision Tree Classes: ',dtree.classes_,'\n')
+
+
+    y_test_predict = dtree.predict(x_test)
+
+    st.write('Confusion matrix tree: \n', confusion_matrix(y_test, y_test_predict), '\n')
+    st.write('Accuracy: ', accuracy_score(y_test ,y_test_predict), '\n')
+    st.write(metrics.classification_report(y_test, y_test_predict),'\n')
+
+    # Feature importance chart
+    importance_df = pd.DataFrame({
+        "Feature": features,
+        "Importance": dtree.feature_importances_
+    }).sort_values("Importance", ascending=False)
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    importance_df.head(10).plot(kind="bar", x="Feature", y="Importance", ax=ax, legend=False, color='skyblue', edgecolor='black')
+    ax.set_title("Top 10 Feature Importances")
+    ax.set_ylabel("Importance")
+    ax.set_xlabel("Feature")
+    plt.xticks(rotation=90, ha='right')
+    st.pyplot(fig)
+
+
+    st.write('  Introduction to Decison Tree')
+    st.write('We trained a decision tree classifier to predict the impact level of market events'
+      '(Low, Medium, High) based on numeric features like Index_Change_Percent, '
+      'Trading_Volume, sentiment scores, sector indicators, and market event flags.\n')
+    st.write('  Explanation of Features')
+    st.write('The model uses a combination of numeric features and one-hot encoded categorical features:\n'
+      '-Market indicators (Index_Change_Percent, Trading_Volume)\n'
+      '-Sentiment scores (Sentiment_Numeric)\n'
+      '-Sector dummies (Sector_Technology, Sector_Healthcare, etc.)\n'
+      '-Market event flags (Market_Event_Bond Market Fluctuation, Market_Event_IPO Launch, etc.)\n')
+    st.write('  How the Tree Works')
+    st.write('Each node in the tree represents a decision based on a feature threshold.The tree splits'
+      'the data at points that maximize class separation (using Gini impurity or entropy).Leaf'
+      'nodes show the predicted class (Low, Medium, High) and can be interpreted as the model’s'
+      'predicted impact level for the observations that reach that node.\n')
+    st.write('  Interpreting the Tree')
+    st.write('The top node represents the most important feature for predicting impact.Branches split'
+      'based on feature thresholds, and the path from root to leaf indicates the sequence of'
+      'decisions. Node colors indicate class distribution — darker colors represent a stronger class signal.\n \n')
+
 
