@@ -72,12 +72,6 @@ if selected_impact:
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Overview', 'Distributions', 'Categorical Analysis', 'Market Movement analysis', 'Correlations', 'Headline Text Analysis', 'Predictive Modelling'])
 
 with tab1:
-    #key metrics at a glance
-    #col1, col2, col3, col4 = st.columns(4)
-    #col1.metric('Total Headlines: ', '2730')
-    #col2.metric('Average Index Change Percent:', '-0.03')
-    #col3.metric('Most Common Sentiment: ', 'Negative')
-    #col4.metric('Most impacted Sector: ', 'Agriculture')
 
     col1, col2, col3, col4, col5 = st.columns(5)
     #key metrics at a glance
