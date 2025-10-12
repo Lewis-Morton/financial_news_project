@@ -47,5 +47,5 @@ Scikit-learn
 Full dependency list available in requirements.txt
 
 ## Future Work
-Add and compare machine learning models for prediction
-Integrate live news APIs for real-time analysis
+- Add and compare machine learning models for prediction
+- Integrate live news APIs for real-time analysis
