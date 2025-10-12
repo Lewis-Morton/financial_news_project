@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 #load preprocessed datasets and cleaned word lists from jupyter for use in the dashboard
-df = pd.read_csv(r'data\financial_news_events.csv')
-df_clean = pd.read_csv(r'data\financial_news_events_clean.csv')
-heatmap_df = pd.read_csv(r'data\financial_news_events_heatmap_df.csv')
-clean_words = pd.read_csv(r'data\clean_words.csv')['Word'].tolist()
+df = pd.read_csv('data/financial_news_events.csv')
+df_clean = pd.read_csv('data/financial_news_events_clean.csv')
+heatmap_df = pd.read_csv('data/financial_news_events_heatmap_df.csv')
+clean_words = pd.read_csv('data/clean_words.csv')['Word'].tolist()
 word_series = pd.Series(clean_words)
-df_one_hot_encoded = pd.read_csv(r'data\df_one_hot_encoded.csv')
+df_one_hot_encoded = pd.read_csv('data/df_one_hot_encoded.csv')
 
 #without setting the layout to wide, only 6 tabs are rendered
 st.set_page_config(layout='wide')
