@@ -73,11 +73,19 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Overview', 'Distributions',
 
 with tab1:
     #key metrics at a glance
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric('Total Headlines: ', '2730')
-    col2.metric('Average Index Change Percent:', '-0.03')
-    col3.metric('Most Common Sentiment: ', 'Negative')
-    col4.metric('Most impacted Sector: ', 'Agriculture')
+    #col1, col2, col3, col4 = st.columns(4)
+    #col1.metric('Total Headlines: ', '2730')
+    #col2.metric('Average Index Change Percent:', '-0.03')
+    #col3.metric('Most Common Sentiment: ', 'Negative')
+    #col4.metric('Most impacted Sector: ', 'Agriculture')
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+    #key metrics at a glance
+    col1.metric('Total Headlines: ', len(df_filtered))
+    col2.metric('Average Index Change Percent: ', f'{round(df_filtered["Index_Change_Percent"].mean(), 2)}%')
+    col3.metric('Most Common Sentiment: ', df_filtered['Sentiment'].mode()[0])
+    col4.metric('Most Impacted Sector: ', df_filtered['Sector'].mode()[0])
+    col5.metric('Most Common Event Type: ', df_filtered['Market_Event'].mode()[0])
 
     st.write('Original Dataset Shape: ', df.shape)
 
