@@ -30,6 +30,12 @@ Clone the repository and install the dependencies:
 
 
 ## Usage
+
+### Online
+You can try the app directly in your browser here:
+[Financial News Dashboard](https://financial-news-dashboard-fmreyuhslk6goqnbnltctg.streamlit.app/)
+
+### Local
 To run the app locally:
 ```streamlit run app.py```
 
