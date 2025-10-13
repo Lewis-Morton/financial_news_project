@@ -27,8 +27,8 @@ with st.expander('See more details'):
 st.sidebar.header('Financial News Controls')
 
 #date range filter
-start_date = st.sidebar.date_input("Start Date", value=pd.to_datetime(df_clean['Date']).min())
-end_date = st.sidebar.date_input("End Date", value=pd.to_datetime(df_clean['Date']).max())
+start_date = st.sidebar.date_input('Start Date', value=pd.to_datetime(df_clean['Date']).min())
+end_date = st.sidebar.date_input('End Date', value=pd.to_datetime(df_clean['Date']).max())
 
 #sentiment filter
 selected_sentiments = st.sidebar.multiselect(
@@ -289,7 +289,7 @@ with tab5:
 with tab6:
         #most common word, bigrams, and trigrams are plotted using seaborn barplots, tokenisation, removal of punctuation and 
         #stopwords was carried out in jupyter notebooks
-    #try:
+    
         from nltk import bigrams, trigrams, FreqDist
 
         st.write('To better understand the language patterns within the headlines, we examined the frequency of individual'
@@ -362,8 +362,7 @@ with tab6:
 
         #st.subheader('Top 10 Trigrams')
         #st.dataframe(df_trigrams)
-    #except Exception as e:
-        #st.error(f'Error in Tab 6: {e}')
+    
 
 import sklearn
 from sklearn import tree
@@ -422,7 +421,7 @@ with tab7:
       'decisions. Node colours indicate class distribution — darker colours represent a stronger class signal.\n \n')
 
     fig, ax = plt.subplots(figsize=(30,25))
-    class_mapping = {0: "Low", 1: 'Medium', 2: 'High'}
+    class_mapping = {0: 'Low', 1: 'Medium', 2: 'High'}
     class_labels = [class_mapping[c] for c in dtree.classes_]
     tree.plot_tree(dtree, feature_names=features, class_names=class_labels, filled=True, fontsize=15, rounded=True)
     st.pyplot(fig)
@@ -437,15 +436,15 @@ with tab7:
 
     # Feature importance chart
     importance_df = pd.DataFrame({
-        "Feature": features,
-        "Importance": dtree.feature_importances_
-    }).sort_values("Importance", ascending=False)
+        'Feature': features,
+        'Importance': dtree.feature_importances_
+    }).sort_values('Importance', ascending=False)
 
     fig, ax = plt.subplots(figsize=(12,6))
     sns.barplot(data=importance_df.head(10), x='Feature', y='Importance', palette='Blues_r', edgecolor='black', linewidth=2, ax=ax)
-    ax.set_title("Top 10 Feature Importances")
-    ax.set_ylabel("Importance")
-    ax.set_xlabel("Feature")
+    ax.set_title('Top 10 Feature Importances')
+    ax.set_ylabel('Importance')
+    ax.set_xlabel('Feature')
     plt.xticks(rotation=90, ha='right')
     st.pyplot(fig)
 
