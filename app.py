@@ -184,6 +184,7 @@ with tab3:
     st.write('Here we examine the top 10 sources of news in the dataset, showing which outlets contribute most to market-related reporting.')
 
     top_10_market_events = df['Market_Event'].value_counts().head(10).index
+    fig, ax = plt.subplots(figsize=(12,6))
     sns.countplot(x='Market_Event', data=df_filtered, palette='pastel', edgecolor='black', linewidth=2, ax=ax)
     ax.set_title('Count of top 10 Event Types')
     ax.set_ylabel('Count')
