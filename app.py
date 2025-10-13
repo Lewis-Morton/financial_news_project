@@ -120,7 +120,7 @@ with tab2:
    
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    df_filtered['Trading_Volume'].plot(kind='hist', bins=10, ax=ax, color='grey', edgecolor='black', linewidth=2)
+    df_filtered['Trading_Volume'].plot(kind='hist', bins=10, ax=ax, color='mistyrose', edgecolor='black', linewidth=2)
     ax.set_title('Trading Volume Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Trading Volume')
@@ -132,7 +132,7 @@ with tab2:
 
 
     fig, ax = plt.subplots(figsize=(12,6))
-    df_filtered['Index_Change_Percent'].plot(kind='hist', bins=10, ax=ax, color='grey', edgecolor='black', linewidth=2)
+    df_filtered['Index_Change_Percent'].plot(kind='hist', bins=10, ax=ax, color='honeydew', edgecolor='black', linewidth=2)
     ax.set_title('Index Change % Distribution')
     ax.set_ylabel('Count')
     ax.set_xlabel('Index Change Percent')
